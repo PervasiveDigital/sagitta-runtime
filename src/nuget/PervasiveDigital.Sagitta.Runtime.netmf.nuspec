@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>PervasiveDigital.Sagitta.Runtime.netmf43</id>
+    <title>The Sagitta runtime for the .Net MicroFramework platform</title>
+    <version>4.0.1-beta</version>
+    <authors>Martin Calsyn</authors>
+    <owners>Pervasive Digital LLC</owners>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <projectUrl>https://sagitta.io/</projectUrl>
+    <iconUrl>https://sagitta.io/images/Pervasive-Digital-Icon-notext.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>The Sagitta runtime for the .Net MicroFramework platform</summary>
+    <description>
+      This class library contains the required runtime foundation for running .Net MicroFramework projects built using the Sagitta Designer.
+    </description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2018 Pervasive Digital LLC</copyright>
+    <tags>netmf MicroFramework IoT</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.SPOT.Native" />
+      <frameworkAssembly assemblyName="Microsoft.SPOT.Hardware" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

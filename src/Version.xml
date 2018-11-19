@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Versions>
+  <Version package="PervasiveDigital.Sagitta.Runtime.netmf">
+    <Major>1</Major>
+    <Minor>0</Minor>
+    <Build>0</Build>
+    <Revision>0</Revision>
+    <Suffix>-beta</Suffix>
+  </Version>
+  <Version package="PervasiveDigital.Sagitta.Runtime.TinyCLR">
+    <Major>1</Major>
+    <Minor>0</Minor>
+    <Build>0</Build>
+    <Revision>0</Revision>
+    <Suffix>-beta</Suffix>
+  </Version>
+</Versions>

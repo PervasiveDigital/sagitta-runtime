@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Sagitta.Runtime.Shared", "shared\Sagitta.Runtime.Shared\Sagitta.Runtime.Shared.shproj", "{01548067-F45F-46AA-B92E-B7D33B29AAD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagitta.Runtime.TinyCLR", "TinyCLR\Sagitta.Runtime.TinyCLR\Sagitta.Runtime.TinyCLR.csproj", "{3CCCEA94-14D0-4362-8192-048B4B9A73EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagitta.Runtime.netmf44", "Netmf\4.4\Sagitta.Runtime.netmf44\Sagitta.Runtime.netmf44.csproj", "{7197CA21-7B52-4994-BFD1-863AF9D683EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagitta.Runtime.netmf43", "Netmf\4.3\Sagitta.Runtime.netmf43\Sagitta.Runtime.netmf43.csproj", "{BF072AC6-AC87-4B60-BC66-0E4FF11FD701}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{95CD9127-05A0-46FB-A84C-28E032CE3E53}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\SolutionPostBuild.ps1 = scripts\SolutionPostBuild.ps1
+		scripts\SolutionPreBuild.ps1 = scripts\SolutionPreBuild.ps1
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildNugetPackages", "BuildNugetPackages\BuildNugetPackages.csproj", "{D60AE59A-1C65-4CE8-B517-79EBB0C431F8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7197CA21-7B52-4994-BFD1-863AF9D683EA} = {7197CA21-7B52-4994-BFD1-863AF9D683EA}
+		{3CCCEA94-14D0-4362-8192-048B4B9A73EB} = {3CCCEA94-14D0-4362-8192-048B4B9A73EB}
+		{BF072AC6-AC87-4B60-BC66-0E4FF11FD701} = {BF072AC6-AC87-4B60-BC66-0E4FF11FD701}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{AD57B6B9-05BF-4DAF-9812-2877D1176117}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\PervasiveDigital.Sagitta.Runtime.netmf.nuspec = nuget\PervasiveDigital.Sagitta.Runtime.netmf.nuspec
+		nuget\PervasiveDigital.Sagitta.Runtime.TinyCLR.nuspec = nuget\PervasiveDigital.Sagitta.Runtime.TinyCLR.nuspec
+		Version.xml = Version.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		shared\Sagitta.Runtime.Shared\Sagitta.Runtime.Shared.projitems*{01548067-f45f-46aa-b92e-b7d33b29aad6}*SharedItemsImports = 13
+		shared\Sagitta.Runtime.Shared\Sagitta.Runtime.Shared.projitems*{3cccea94-14d0-4362-8192-048b4b9a73eb}*SharedItemsImports = 4
+		shared\Sagitta.Runtime.Shared\Sagitta.Runtime.Shared.projitems*{7197ca21-7b52-4994-bfd1-863af9d683ea}*SharedItemsImports = 4
+		shared\Sagitta.Runtime.Shared\Sagitta.Runtime.Shared.projitems*{bf072ac6-ac87-4b60-bc66-0e4ff11fd701}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CCCEA94-14D0-4362-8192-048B4B9A73EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CCCEA94-14D0-4362-8192-048B4B9A73EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CCCEA94-14D0-4362-8192-048B4B9A73EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CCCEA94-14D0-4362-8192-048B4B9A73EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7197CA21-7B52-4994-BFD1-863AF9D683EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7197CA21-7B52-4994-BFD1-863AF9D683EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7197CA21-7B52-4994-BFD1-863AF9D683EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7197CA21-7B52-4994-BFD1-863AF9D683EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF072AC6-AC87-4B60-BC66-0E4FF11FD701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF072AC6-AC87-4B60-BC66-0E4FF11FD701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF072AC6-AC87-4B60-BC66-0E4FF11FD701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF072AC6-AC87-4B60-BC66-0E4FF11FD701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D60AE59A-1C65-4CE8-B517-79EBB0C431F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D60AE59A-1C65-4CE8-B517-79EBB0C431F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D60AE59A-1C65-4CE8-B517-79EBB0C431F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D60AE59A-1C65-4CE8-B517-79EBB0C431F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF26263A-CCF4-4FA6-9900-2C70AAAC9BD2}
+	EndGlobalSection
+EndGlobal
