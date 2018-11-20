@@ -15,14 +15,16 @@ $jobs = @(
 		package = "Sagitta.Runtime.netmf";
 		projects = @(
 			@{
-			dir = "Netmf\4.3\";
+			dir = "netmf\4.3\";
 			projectName = "Sagitta.Runtime.netmf43";
 			libtarget = "netmf43"
+			subdirs = @("\be","\le");
 			},
 			@{
-			dir = "Netmf\4.4\";
+			dir = "netmf\4.4\";
 			projectName = "Sagitta.Runtime.netmf44";
 			libtarget = "netmf44"
+			subdirs = @("\","\be\","\le\");
 			}
 		)
 	},
@@ -33,7 +35,8 @@ $jobs = @(
 			@{
 			dir = "TinyCLR\";
 			projectName = "Sagitta.Runtime.TinyCLR";
-			target = "net452";
+			libtarget = "net452";
+			subdirs = @("\");
 			}
 		)
 	}
@@ -93,15 +96,14 @@ function PrepareNugetPackage($job) {
 		$projectName = $project["projectName"];
 
 		$destDir = $libDir + $project["libtarget"]
-		Write-Verbose "Creating $destDir\be"
-		mkdir $destDir"\be" | out-null
-		Write-Verbose "Copying $originDir\be to $destDir\be"
-		Copy-Item -Path "$originDir\be\*" -Destination "$destDir\be" -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
-		Write-Verbose "Creating $destDir\le"
-		mkdir $destDir"\le" | out-null
-		Write-Verbose "Copying $originDir\le to $destDir\le"
-		Copy-Item -Path "$originDir\le\*" -Destination "$destDir\le" -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
-		Copy-Item -Path $originDir"*" -Destination $destDir -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
+
+		foreach ($subdir in $project["subdirs"])
+		{
+			Write-Verbose "Creating $destDir$subdir"
+			mkdir $destDir$subdir | out-null
+			Write-Verbose "Copying $originDir$subdir to $destDir$subdir"
+			Copy-Item -Path "$originDir$subdir*" -Destination "$destDir$subdir" -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
+		}
 	}
 }
 
