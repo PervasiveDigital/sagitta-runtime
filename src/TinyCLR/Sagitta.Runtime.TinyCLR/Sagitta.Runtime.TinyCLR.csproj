@@ -47,4 +47,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\GHIElectronics.TinyCLR.Core.1.0.0-preview2\build\net452\GHIElectronics.TinyCLR.Core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\GHIElectronics.TinyCLR.Core.1.0.0-preview2\build\net452\GHIElectronics.TinyCLR.Core.props'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>powershell -NoLogo -NonInteractive -Command .'$(SolutionDir)Scripts\SolutionPreBuild.ps1' -Verbose -SolutionDir:'$(SolutionDir)' -ProjectDir:'$(ProjectDir)' -ProjectName:'PervasiveDigital.Sagitta.Runtime.TinyCLR'</PreBuildEvent>
+  </PropertyGroup>
 </Project>

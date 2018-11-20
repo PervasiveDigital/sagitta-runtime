@@ -1,9 +1,5 @@
 ﻿namespace PervasiveDigital.Sagitta.Runtime
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     public abstract class SagittaApplicationBase
     {
         public SagittaApplicationBase()

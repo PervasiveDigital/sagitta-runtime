@@ -7,36 +7,63 @@ if(-not ($RepoDir -and $SolutionDir -and $ConfigurationName))
 	exit 1
 }
 
-$netmfVersions = "43","44","tinyclr"
-$projects = "Sagitta.Runtime"
+$buildDir = $SolutionDir + "build\nuget\" + $ConfigurationName + "\"
 
-function CleanNugetPackage([string]$projectName) {
+$jobs = @(
+	@{
+		nuspec = "PervasiveDigital.Sagitta.Runtime.netmf.nuspec";
+		package = "Sagitta.Runtime.netmf";
+		projects = @(
+			@{
+			source = "Netmf\4.3\Sagitta.Runtime.netmf43";
+			libtarget = "netmf43"
+			},
+			@{
+			source = "Netmf\4.4\Sagitta.Runtime.netmf44";
+			target = "netmf44"
+			}
+		)
+	},
+	@{
+		nuspec = "PervasiveDigital.Sagitta.Runtime.TinyCLR.nuspec";
+		package = "Sagitta.Runtime.TinyCLR";
+		projects = @(
+			@{
+				source = "TinyCLR\Sagitta.Runtime.TinyCLR";
+				target = "net452";
+			}
+		)
+	}
+)
 
-	Write-Verbose "CLEAN"
+function CleanNugetPackage($job) {
 
-	$nugetBuildDir = $SolutionDir + 'nuget\' + $ConfigurationName + '\' + $projectName + '\'
-	$libDir = $nugetBuildDir + "lib\"
-	$srcDir = $nugetBuildDir + "src\"
+	Write-Verbose "---- CLEAN ----------------------------------------------------------------------"
 
-	Write-Verbose "Nuget build dir is $nugetBuildDir"
-	$nuget = $SolutionDir + "nuget\bin\nuget.exe"
+	foreach ($project in $job["projects"]) {
+		$nugetBuildDir = $buildDir + $job["package"] + "\"
+		$libDir = $nugetBuildDir + "lib\"
+		$srcDir = $nugetBuildDir + "src\"
 
-	if (test-path $nugetBuildDir) { ri -r -fo $nugetBuildDir }
-	mkdir $libDir | out-null
-	mkdir $srcDir | out-null
+		Write-Verbose "Removing $nugetBuildDir"
+
+		if (test-path $nugetBuildDir) { ri -r -fo $nugetBuildDir }
+		mkdir $libDir | out-null
+		mkdir $srcDir | out-null
+	}
 }
 
 
-function CopySource([string]$projectName) {
+function CopySource([string]$projectName, [string]$platformName) {
 
-	Write-Verbose "COPYSOURCE"
+	Write-Verbose "---- COPYSOURCE -----------------------------------------------------------------"
 
 	$nugetBuildDir = $SolutionDir + 'nuget\' + $ConfigurationName + '\' + $projectName + '\'
 	$srcDir = $nugetBuildDir + "src\"
 
 	# Copy source files for symbol server
 	$sharedProjectName = $projectName + '.Shared\'
-	$sharedDir = $SolutionDir + 'common\' + $sharedProjectName
+	$sharedDir = $SolutionDir + 'shared\' + $sharedProjectName
 	Copy-Item -Recurse -Path $sharedDir -Destination $srcDir -Filter "*.cs"
 	
 	# rename the copied dir to remove the .Shared
@@ -77,7 +104,7 @@ function PublishNugetPackage([string]$projectName) {
 	$nugetBuildDir = $SolutionDir + 'nuget\' + $ConfigurationName + '\' + $projectName + '\'
 	$libDir = $nugetBuildDir + "lib\"
 	$srcDir = $nugetBuildDir + "src\"
-	$nuget = $SolutionDir + ".nuget\nuget.exe"
+	$nuget = $SolutionDir + "nuget\bin\nuget.exe"
 
 	# Create the nuget package
 	$output = $repoDir + $ConfigurationName
@@ -87,11 +114,13 @@ function PublishNugetPackage([string]$projectName) {
 	& $nuget $args
 }
 
-foreach ($project in $projects) {
-	CleanNugetPackage $project
-	CopySource $project
+foreach ($job in $jobs) {
+	Write-Verbose $job
+	$pkgname = $project + "." + $platform
+    CleanNugetPackage $job
+    #CopySource $project $platform
 	foreach ($version in $netmfVersions) {
-		PrepareNugetPackage  $project $version
+		PrepareNugetPackage  $pkgname $version
 	}
 	PublishNugetPackage $project
 }

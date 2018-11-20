@@ -3,7 +3,7 @@
   <metadata>
     <id>PervasiveDigital.Sagitta.Runtime.TinyCLR</id>
     <title>The Sagitta runtime for the TinyCLR platform</title>
-    <version>4.0.1-beta</version>
+    <version>1.0.0-beta</version>
     <authors>Martin Calsyn</authors>
     <owners>Pervasive Digital LLC</owners>
     <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
