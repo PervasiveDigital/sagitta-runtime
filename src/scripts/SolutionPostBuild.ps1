@@ -15,12 +15,14 @@ $jobs = @(
 		package = "Sagitta.Runtime.netmf";
 		projects = @(
 			@{
-			source = "Netmf\4.3\Sagitta.Runtime.netmf43";
+			dir = "Netmf\4.3\";
+			projectName = "Sagitta.Runtime.netmf43";
 			libtarget = "netmf43"
 			},
 			@{
-			source = "Netmf\4.4\Sagitta.Runtime.netmf44";
-			target = "netmf44"
+			dir = "Netmf\4.4\";
+			projectName = "Sagitta.Runtime.netmf44";
+			libtarget = "netmf44"
 			}
 		)
 	},
@@ -29,8 +31,9 @@ $jobs = @(
 		package = "Sagitta.Runtime.TinyCLR";
 		projects = @(
 			@{
-				source = "TinyCLR\Sagitta.Runtime.TinyCLR";
-				target = "net452";
+			dir = "TinyCLR\";
+			projectName = "Sagitta.Runtime.TinyCLR";
+			target = "net452";
 			}
 		)
 	}
@@ -76,27 +79,35 @@ function CopySource([string]$projectName, [string]$platformName) {
 	#if (test-path $target"\bin") { Remove-Item -Recurse $target"\bin" | out-null }
 }
 
-function PrepareNugetPackage([string]$projectName, [string]$netmfVersion) {
+function PrepareNugetPackage($job) {
 
-	Write-Verbose "PREPARE"
+	Write-Verbose "---- PREPARE --------------------------------------------------------------------"
 
-	$nugetBuildDir = $SolutionDir + 'nuget\' + $ConfigurationName + '\' + $projectName + '\'
+	$nugetBuildDir = $buildDir + $job["package"] + "\"
 	$libDir = $nugetBuildDir + "lib\"
 	$srcDir = $nugetBuildDir + "src\"
 
-	$projectDir = $SolutionDir + 'netmf' + $netmfVersion + '\' + $projectName + '\'
-	$targetDir = $projectDir + 'bin\' + $ConfigurationName + '\'
+	foreach ($project in $job["projects"]) {
+		$projectDir = $SolutionDir + $project["dir"] + $project["projectName"]
+		$originDir = $projectDir + "\bin\" + $ConfigurationName
+		$projectName = $project["projectName"];
 
-	mkdir $libDir"\netmf"$netMFVersion"\be" | out-null
-	Copy-Item -Path $targetDir"be\*" -Destination $libDir"\netmf"$netMFVersion"\be" -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
-	mkdir $libDir"\netmf"$netMFVersion"\le" | out-null
-	Copy-Item -Path $targetDir"le\*" -Destination $libDir"\netmf"$netMFVersion"\le" -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
-	Copy-Item -Path $targetDir"*" -Destination $libDir"\netmf"$netMFVersion -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
+		$destDir = $libDir + $project["libtarget"]
+		Write-Verbose "Creating $destDir\be"
+		mkdir $destDir"\be" | out-null
+		Write-Verbose "Copying $originDir\be to $destDir\be"
+		Copy-Item -Path "$originDir\be\*" -Destination "$destDir\be" -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
+		Write-Verbose "Creating $destDir\le"
+		mkdir $destDir"\le" | out-null
+		Write-Verbose "Copying $originDir\le to $destDir\le"
+		Copy-Item -Path "$originDir\le\*" -Destination "$destDir\le" -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
+		Copy-Item -Path $originDir"*" -Destination $destDir -Include "$projectname.dll","$projectname.pdb","$projectname.xml","$projectname.pdbx","$projectname.pe"
+	}
 }
 
-function PublishNugetPackage([string]$projectName) {
+function PublishNugetPackage($job) {
 
-	Write-Verbose "PUBLISH"
+	Write-Verbose "---- PUBLISH --------------------------------------------------------------------"
 
 	$nuspec = $SolutionDir + 'nuget\' + $projectName + '.nuspec'
 	Write-Verbose "nuspec file $nuspec"
@@ -115,12 +126,9 @@ function PublishNugetPackage([string]$projectName) {
 }
 
 foreach ($job in $jobs) {
-	Write-Verbose $job
 	$pkgname = $project + "." + $platform
     CleanNugetPackage $job
     #CopySource $project $platform
-	foreach ($version in $netmfVersions) {
-		PrepareNugetPackage  $pkgname $version
-	}
-	PublishNugetPackage $project
+	PrepareNugetPackage  $job
+#	PublishNugetPackage $project
 }
