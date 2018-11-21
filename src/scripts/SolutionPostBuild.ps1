@@ -17,14 +17,14 @@ $jobs = @(
 			@{
 			dir = "netmf\4.3\";
 			projectName = "Sagitta.Runtime.netmf43";
-			libtarget = "netmf43"
-			subdirs = @("\be","\le");
+			libtarget = "netmf43";
+			subdirs = @("\", "\be\", "\le\");
 			},
 			@{
 			dir = "netmf\4.4\";
 			projectName = "Sagitta.Runtime.netmf44";
-			libtarget = "netmf44"
-			subdirs = @("\","\be\","\le\");
+			libtarget = "netmf44";
+			subdirs = @("\", "\be\", "\le\");
 			}
 		)
 	},
@@ -96,7 +96,6 @@ function PrepareNugetPackage($job) {
 		$projectName = $project["projectName"];
 
 		$destDir = $libDir + $project["libtarget"]
-
 		foreach ($subdir in $project["subdirs"])
 		{
 			Write-Verbose "Creating $destDir$subdir"
